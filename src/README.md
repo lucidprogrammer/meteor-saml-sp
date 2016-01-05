@@ -58,3 +58,8 @@ You can test this by going into http://sp.test.com:3000 and by using the "login 
 IDP Initiated SSO : TBD (http://idp.acme.com:8080/saml/saml2/idp/SSOService.php?spentityid=http://sp.test.com:3000/_samlsp)
 
 IDP initiated SLO : http://idp.acme.com:8080/saml/saml2/idp/SingleLogoutService.php?ReturnTo=http://idp.acme.com:8080
+
+## Credits
+Inspited by nate-strauser/meteor-accounts-saml
+
+Heavily using bergie/passport-saml
