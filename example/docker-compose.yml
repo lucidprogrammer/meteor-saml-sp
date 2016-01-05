@@ -1,0 +1,38 @@
+# Datastore for the IDP
+mysql:
+  image: mysql:latest
+  volumes:
+    - ./idp/mysql/data:/var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=my-secret-pw
+    - MYSQL_DATABASE=login
+  ports:
+    - "3306:3306"
+
+idp:
+  build: ./idp
+  links:
+    - mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=my-secret-pw
+    - MYSQL_DATABASE=login
+  volumes:
+    # if you wish to change any configuration parameters.
+    - ./idp/config.php:/app/saml/config/config.php
+    # This needs changing
+    - ./idp/saml20-sp-remote.php:/app/saml/metadata/saml20-sp-remote.php
+    - ./idp/cert:/app/saml/cert
+
+  ports:
+    - "8080:80"
+
+sp:
+  build : ./sp
+  ports :
+    - "3000:3000"
+  environment :
+    - ROOT_URL=http://sp.test.com:3000/
+  volumes :
+    - ./../src/package.js:/root/app/packages/meteor-saml-sp/package.js
+    - ./../src/client:/root/app/packages/meteor-saml-sp/client
+    - ./../src/server:/root/app/packages/meteor-saml-sp/server
