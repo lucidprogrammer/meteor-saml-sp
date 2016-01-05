@@ -2,7 +2,7 @@ Package.describe({
   name: "lucidprogrammer:meteor-saml-sp",
   version: "0.0.1",
   summary: "SAML 2.0 Service Provider Implementation for Meteor.",
-  git: "",
+  git: "https://github.com/lucidprogrammer/meteor-saml-sp.git",
   documentation: "README.md"
 });
 
@@ -38,5 +38,5 @@ Package.onTest(function(api) {
   api.use("ecmascript");
   api.use("tinytest");
   api.use("lucidprogrammer:meteor-saml-sp");
-  api.addFiles("meteor-saml-sp-tests.js");
+  // api.addFiles("meteor-saml-sp-tests.js");
 });
