@@ -1,4 +1,5 @@
 
+
 # SAML Terminology
 ## Service Provider (SP)
 An application which is protected. In this scenario, we are referring to the meteor application.
@@ -58,6 +59,11 @@ You can test this by going into http://sp.test.com:3000 and by using the "login 
 IDP Initiated SSO : TBD (http://idp.acme.com:8080/saml/saml2/idp/SSOService.php?spentityid=http://sp.test.com:3000/_samlsp)
 
 IDP initiated SLO : http://idp.acme.com:8080/saml/saml2/idp/SingleLogoutService.php?ReturnTo=http://idp.acme.com:8080
+
+## Production
+You can see the Service Provider metadata by going into http://yourhosturl/_samlsp/metadata (ex: http://sp.test.com:3000/_samlsp/metadata). This is what is to be exchanged to the IDP.
+
+Review config.js in the server folder, this is the one to override in your usage.(comments are self explanatory)
 
 ## Credits
 Inspited by nate-strauser/meteor-accounts-saml
