@@ -17,20 +17,23 @@
 
 	<hr>
 
-	<h2>Step 1</h2>
-	Create a password based account.
+	{{#if currentUser}}
+		{{#with currentUser}}
+		    {{#with profile}}
+		    	<h2>SAML data of current user:</h2>
+		        email: {{email}} <br>
+		        firstName: {{firstName}} <br>
+		        lastName: {{lastName}} <br>
+		        samlIssuer: {{samlIssuer}} <br>
+		    {{/with}}
+		{{/with}}
+	{{/if}}
 
-	<h2>Step 2</h2>
-	Sign out / log out.  You should see both the login buttons control 'Sign In' and the custom saml login link 'Log in with OpenIDP'
+	<br>
 
-	<h2>Step 3</h2>
-	Create OpenIDP account if you don't already have one with same email address as the password account. https://openidp.feide.no/
-
-	<h2>Step 4</h2>
-	Click the link 'Log in with OpenIDP'. In the pop up window, log in with your OpenIDP credentials.
-
-	<h2>Step 5</h2>
-	If all goes well, the popup should close by itself.  You should now be logged in just as if you had typed in your username and password.
-
+	<h2>Links:</h2>
+	<a href="http://sp.test.com:3000">Service Provider</a> <br>
+	<a href="http://idp.acme.com:8080">Identity Provider</a> <br>
+	<a href="http://idp.acme.com:8081">Mange Users</a> <br>
 
 </template>
