@@ -7,8 +7,18 @@ if (Meteor.isClient) {
       Meteor.loginWithSaml({
         idpName : provider
     }, function(error, result){
-      //handle errors and result
+        // handle errors and result
+        if (error) {
+          // error
+          console.log('error!');
+          console.log(error)
+        } else {
+          // success
+          console.log('success!');
+          console.log(result);
+        }
       });
-    }
+    },
+
   });
 }
