@@ -47,14 +47,27 @@ openssl req \
 You can run the example in your local machine. (IDP and SP are configured with some default certificates.)
 To use code in the example directory, you can use the Docker Toolbox which comes with docker, docker-compose and docker-machine.
 
-If your docker setup is ready, see the IP address of your host. Then create the following entries in your host file. (IP address will be different for you, make sure that you get that correct.)
+If your docker setup is ready, see the IP address of your host. Then create the following entries in your hosts file. (IP address will be different for you, make sure that you get that correct.)
 ```
 192.168.99.100 idp.acme.com
 192.168.99.100 sp.test.com
 ```
-Just run the command, docker-compose up, you should have a the IDP (simplesamlphp & mysql data store) & SP (meteor app). Review the docker-compose file and you will understand the details when you go into production.
+Just run the command, docker-compose up, you should have a the IDP (simplesamlphp & mysql data store + phpmyadmin) & SP (meteor app). Review the docker-compose file and you will understand the details when you go into production.
 ### SP initiated SSO and SLO
 You can test this by going into http://sp.test.com:3000 and by using the "login with SAML"/Signout link
+
+the IDP is created with 2 default users:
+```
+username: lucid
+password: password
+
+username: joebloggs
+password: password
+```
+You can edit the users by going into http://idp.acme.com:8081 (username: root | password: my-secret-pw)
+and editing (database: login | table: users)
+
+The IDP created in http://idp.acme.com:8080 (username: Administrator | password: password) and it's based on https://simplesamlphp.org/
 ### IDP initiated SSO and SLO
 IDP Initiated SSO : TBD (http://idp.acme.com:8080/saml/saml2/idp/SSOService.php?spentityid=http://sp.test.com:3000/_samlsp)
 
