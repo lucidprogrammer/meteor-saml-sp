@@ -67,9 +67,9 @@ if [ -z "$(docker network ls --filter "name=example_network" -q)" ]; then
 fi
 
 if [ ! -d "${EXAMPLE_DIR}"/meteorapp/node_modules ]; then
-    docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/meteor.yml run meteor npm install
+    docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/meteor.yml run --rm meteor npm install
 fi
-
+exit 0
 docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/idp.yml \
         -f "${COMPOSE_DIR}"/sp.yml \
         -f "${COMPOSE_DIR}"/mongod.yml \
