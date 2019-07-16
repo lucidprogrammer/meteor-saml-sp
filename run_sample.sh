@@ -69,14 +69,13 @@ fi
 if [ ! -d "${EXAMPLE_DIR}"/meteorapp/node_modules ]; then
     docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/meteor.yml run --rm meteor npm install
 fi
-exit 0
+
 docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/idp.yml \
         -f "${COMPOSE_DIR}"/sp.yml \
         -f "${COMPOSE_DIR}"/mongod.yml \
-        -f "${COMPOSE_DIR}"/meteor.yml \
-        -f "${COMPOSE_DIR}"/traefik_http.yml up
+        -f "${COMPOSE_DIR}"/traefik_http.yml up -d
   
+docker exec -it mongod mongo --eval 'rs.initiate()'
 
-
-
+docker-compose --log-level ERROR  -f "${COMPOSE_DIR}"/meteor.yml up
 
