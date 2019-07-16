@@ -1,0 +1,41 @@
+version: "3.5"
+services:
+  sp:
+    image: lucidprogrammer/saml_sp:local
+    container_name: sp
+    environment:
+      - "adminpassword=${IDP_ADMINPASSWORD}"
+      - "technicalcontact_name=${IDP_TECHCONTACT}"
+      - "technicalcontact_email=${IDP_TECHEMAIL}"
+      - "IDP_HOST=http://${IDP_SUBDOMAIN}.${ROOTDOMAIN}"
+      - "IDP_PUBLIC_KEY=${IDP_PUBLIC_KEY}"
+    networks:
+      - example_network
+    # just being explicit, the idp container just exposes port 80, cannot access directly from host
+    expose:
+      - "80"
+    command: ["apache2-foreground"]
+    volumes :
+      - "${SAML_SP_DIR}/index.php:/var/www/html/index.php"
+    labels:
+        - traefik.enable=true
+        - traefik.port=80
+        - traefik.frontend.rule=PathPrefix:/saml,/_saml
+        - traefik.docker.network=example_network
+    # deploy is only meant for docker swarm, it will not get picked up if you use docker-compose
+    deploy:
+      labels:
+          - traefik.enable=true
+          - traefik.port=80
+          - traefik.frontend.rule=Host:${SP_SUBDOMAIN}.${ROOTDOMAIN};
+          - traefik.docker.network=example_network
+      restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
+  
+    
+networks:
+  example_network:
+    external: true

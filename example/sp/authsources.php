@@ -15,6 +15,9 @@ $config = [
     // and Shibboleth 1.3 IdPs.
     'default-sp' => [
         'saml:SP',
+        'privatekey' => 'server.pem',
+        'certificate' => 'server.crt',
+
 
         // The entity ID of this SP.
         // Can be NULL/unset, in which case an entity ID is generated based on the metadata URL.
@@ -22,7 +25,7 @@ $config = [
 
         // The entity ID of the IdP this SP should contact.
         // Can be NULL/unset, in which case the user will be shown a list of available IdPs.
-        'idp' => null,
+        'idp' => getenv('IDP_HOST').'/saml/saml2/idp/metadata.php',
 
         // The URL to the discovery service.
         // Can be NULL/unset, in which case a builtin discovery service will be used.
@@ -71,22 +74,22 @@ $config = [
     */
 
     
-    'example-userpass' => [
-        'exampleauth:UserPass',
+    // 'example-userpass' => [
+    //     'exampleauth:UserPass',
 
-        // Give the user an option to save their username for future login attempts
-        // And when enabled, what should the default be, to save the username or not
-        //'remember.username.enabled' => false,
-        //'remember.username.checked' => false,
+    //     // Give the user an option to save their username for future login attempts
+    //     // And when enabled, what should the default be, to save the username or not
+    //     //'remember.username.enabled' => false,
+    //     //'remember.username.checked' => false,
 
-        'joe:password' => [
-            'emailAddress' => ['joe@acme.com'],
-            'givenName' => ['Joe'],
-            'familyName' => ['Bloggs'],
-            'telephoneNumber' => ['4498888888888'],
-        ],
+    //     'joe:password' => [
+    //         'emailAddress' => ['joe@acme.com'],
+    //         'givenName' => ['Joe'],
+    //         'familyName' => ['Bloggs'],
+    //         'telephoneNumber' => ['4498888888888'],
+    //     ],
         
-    ],
+    // ],
     
 
     /*

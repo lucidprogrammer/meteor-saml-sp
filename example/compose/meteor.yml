@@ -1,0 +1,39 @@
+version: "3.5"
+services:
+  meteor:
+    image: lucidprogrammer/meteor-base:1.8.1
+    container_name: meteor
+    restart: always
+    working_dir: /home
+    command: meteor
+    networks:
+      - example_network
+    environment:
+      - MONGO_URL="mongodb://mongod:27017"
+      - MONGO_OPLOG_URL="mongodb://mongod:27017/local?replicaSet=rs0"
+    volumes:
+      - "${EXAMPLE_DIR}/meteorapp:/home"
+    labels:
+      - traefik.enable=true
+      - traefik.port=3000
+      - traefik.frontend.rule=PathPrefix:/
+      - traefik.docker.network=example_network
+  
+    # deploy is only meant for docker swarm, it will not get picked up if you use docker-compose
+    deploy:
+      labels:
+          - traefik.enable=true
+          - traefik.port=3000
+          - traefik.frontend.rule=PathPrefix:/
+          - traefik.docker.network=example_network
+  
+      restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
+  
+    
+networks:
+  example_network:
+    external: true

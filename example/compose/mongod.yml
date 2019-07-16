@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  mongod:
+    image: lucidprogrammer/meteor-base:1.8.1
+    container_name: mongod
+    restart: always
+    command: mongod --bind_ip_all --noauth --smallfiles --replSet rs0 --directoryperdb --journal --wiredTigerDirectoryForIndexes --dbpath /data
+    networks:
+      - example_network
+    ports:
+       - '27017:27017'
+    labels:
+        - traefik.enable=false
+  
+    # deploy is only meant for docker swarm, it will not get picked up if you use docker-compose
+    deploy:
+      labels:
+          - traefik.enable=false
+  
+      restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
+  
+    
+networks:
+  example_network:
+    external: true

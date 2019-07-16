@@ -436,7 +436,7 @@ $config = [
      * one of the functionalities below, but in some cases you could run multiple functionalities.
      * In example when you are setting up a federation bridge.
      */
-    'enable.saml20-idp' => true,
+    'enable.saml20-idp' => false,
     'enable.shib13-idp' => false,
     'enable.adfs-idp' => false,
     'enable.wsfed-sp' => false,
@@ -863,11 +863,6 @@ $config = [
      * Both Shibboleth and SAML 2.0
      */
     'authproc.idp' => [
-        3 => array(
-           'class' => 'saml:AttributeNameID',
-           'attribute' => 'email',
-           'Format' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-        ),
         /* Enable the authproc filter below to add URN prefixes to all attributes
         10 => array[
             'class' => 'core:AttributeMap', 'addurnprefix'
