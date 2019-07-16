@@ -33,7 +33,8 @@ if [ ! -f "${IDP_CERTDIR}/server.crt" ] || [ ! -f "${IDP_CERTDIR}/server.pem" ];
       -out "${IDP_CERTDIR}"/server.crt \
       && openssl rsa -in "${IDP_CERTDIR}"/server.key -text >"${IDP_CERTDIR}"/server.pem
 fi
-IDP_PUBLIC_KEY=$(sed '1d;$d' | awk '{printf $0;}') <"${IDP_CERTDIR}"/server.crt
+# shellcheck disable=SC2002
+IDP_PUBLIC_KEY=$(cat "${IDP_CERTDIR}"/server.crt | sed '1d;$d' | awk '{printf $0;}')
 docker build --build-arg PUBLIC_KEY="${IDP_PUBLIC_KEY}" -t lucidprogrammer/saml_idp:local "${SAML_IDP_DIR}"
 
 export SP_CERTDIR
@@ -54,15 +55,21 @@ if [ ! -f "${SP_CERTDIR}/server.crt" ] || [ ! -f "${SP_CERTDIR}/server.pem" ]; t
       -out "${SP_CERTDIR}"/server.crt \
       && openssl rsa -in "${SP_CERTDIR}"/server.key -text >"${SP_CERTDIR}"/server.pem
 fi
-SP_PUBLIC_KEY=$(sed '1d;$d' | awk '{printf $0;}') <"${SP_CERTDIR}"/server.crt
+# shellcheck disable=SC2002
+SP_PUBLIC_KEY=$(cat "${SP_CERTDIR}"/server.crt | sed '1d;$d' | awk '{printf $0;}')
 docker build --build-arg PUBLIC_KEY="${SP_PUBLIC_KEY}" -t lucidprogrammer/saml_sp:local "${SAML_SP_DIR}"
 
 export ROOTDOMAIN="localhost"
-export SP_SUBDOMAIN="sp"
+
 export IDP_SUBDOMAIN="idp"
 if [ -z "$(docker network ls --filter "name=example_network" -q)" ]; then
      docker network create example_network
 fi
+
+if [ ! -d "${EXAMPLE_DIR}"/meteorapp/node_modules ]; then
+    docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/meteor.yml run meteor npm install
+fi
+
 docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/idp.yml \
         -f "${COMPOSE_DIR}"/sp.yml \
         -f "${COMPOSE_DIR}"/mongod.yml \
