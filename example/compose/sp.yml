@@ -27,7 +27,7 @@ services:
       labels:
           - traefik.enable=true
           - traefik.port=80
-          - traefik.frontend.rule=Host:${SP_SUBDOMAIN}.${ROOTDOMAIN};
+          - traefik.frontend.rule=PathPrefix:/saml,/_saml
           - traefik.docker.network=example_network
       restart_policy:
           condition: on-failure
