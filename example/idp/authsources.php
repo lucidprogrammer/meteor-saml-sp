@@ -85,6 +85,12 @@ $config = [
             'familyName' => ['Bloggs'],
             'telephoneNumber' => ['4498888888888'],
         ],
+        'sally:password' => [
+            'emailAddress' => ['sally@acme.com'],
+            'givenName' => ['Sally'],
+            'familyName' => ['Finn'],
+            'telephoneNumber' => ['4498888888888'],
+        ],
         
     ],
     
