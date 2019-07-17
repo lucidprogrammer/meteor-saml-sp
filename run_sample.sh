@@ -75,6 +75,18 @@ docker-compose --log-level ERROR -f "${COMPOSE_DIR}"/idp.yml \
         -f "${COMPOSE_DIR}"/mongod.yml \
         -f "${COMPOSE_DIR}"/traefik_http.yml up -d
   
+notready="Error"
+while true ;  do
+      if [ -z "$notready" ]; then
+        break
+      fi
+      echo "$notready"
+      docker exec -it mongod mongo --quiet --eval "try { print(db.stats().ok); } catch (error) {print('XYZ');print(error); }" >x 
+      #shellcheck disable=SC2002
+      notready="$(cat x | grep "Error")"
+      sleep 1
+  done
+rm -rf x 2>/dev/null
 docker exec -it mongod mongo --eval 'rs.initiate()'
 
 docker-compose --log-level ERROR  -f "${COMPOSE_DIR}"/meteor.yml up
