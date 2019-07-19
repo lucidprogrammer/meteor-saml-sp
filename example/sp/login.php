@@ -12,6 +12,12 @@ function _redirect($location){
     echo 'window.document.location="'.$location.'";';
     echo '</script>';
 }
+
+function _login_with_token($token) {
+    echo '<script type="text/javascript">';
+    echo 'Meteor.loginWithToken('.$token.');';
+    echo '</script>';
+}
 function contains($needle, $haystack)
 {
     return strpos($haystack, $needle) !== false;
@@ -50,15 +56,12 @@ if(! $user_object ){
 
 
 if(! $user_object && isset($user_auto_create)){
-    // create user
-    
-    
+    // $collection->insert()
 } 
 $stamped_token = _generateStampedLoginToken();
 $hash_stamped_token= _hashStampedToken($stamped_token);
 $token = $stamped_token['token'];
 $collection->updateOne(['_id' => $user_object->_id],['$addToSet' => ['services.resume.loginTokens' => $hash_stamped_token]]);
 
-_set_local_storage('jc_token',$token);
-
+_set_local_storage('Meteor.samlToken', $token);
 _redirect('/');

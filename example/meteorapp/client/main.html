@@ -6,21 +6,16 @@
   <h1>Welcome to Meteor!</h1>
 
   {{> hello}}
-  {{> info}}
+  {{> private}}
 </body>
 
 <template name="hello">
-  <a href='/_saml_login'>loginsaml</a>
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+  <a href='/_saml_login'>Login with SAML</a>
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
+<template name="private">
+  {{#if currentUser}}
+  <h2>Hi</h2>
+  <button>Logout</button>
+  {{/if}}
 </template>
