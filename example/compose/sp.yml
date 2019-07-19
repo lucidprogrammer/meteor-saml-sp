@@ -16,7 +16,9 @@ services:
       - "80"
     command: ["apache2-foreground"]
     volumes :
-      - "${SAML_SP_DIR}/index.php:/var/www/html/index.php"
+      - "${SAML_SP_DIR}/common.php:/var/www/html/common.php"
+      - "${SAML_SP_DIR}/login.php:/var/www/html/login/index.php"
+      - "${SAML_SP_DIR}/logout.php:/var/www/html/logout/index.php"
     labels:
         - traefik.enable=true
         - traefik.port=80

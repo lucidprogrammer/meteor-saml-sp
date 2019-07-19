@@ -80,13 +80,14 @@ $config = [
         //'remember.username.checked' => false,
 
         'joe:password' => [
-            'emailAddress' => ['joe@acme.com'],
+            'email' => ['joe@acme.com'],
+            'username' => ['joe'],
             'givenName' => ['Joe'],
             'familyName' => ['Bloggs'],
             'telephoneNumber' => ['4498888888888'],
         ],
         'sally:password' => [
-            'emailAddress' => ['sally@acme.com'],
+            'email' => ['sally@acme.com'],
             'givenName' => ['Sally'],
             'familyName' => ['Finn'],
             'telephoneNumber' => ['4498888888888'],

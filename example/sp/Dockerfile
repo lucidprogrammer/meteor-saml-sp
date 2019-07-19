@@ -32,4 +32,10 @@ RUN php -r "unlink('composer-setup.php');"
 COPY composer.json /var/www/html/composer.json
 RUN apt-get install -y git unzip
 RUN composer install
+RUN mkdir -p /var/www/html/login && mkdir -p /var/www/html/logout
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
+ENV AUTOMATIC_USER_PROVISIONING="true"
+ENV IDP_ATTRIBUTE_FOR_USERNAME="username"
+ENV IDP_ATTRIBUTE_FOR_EMAIL="email"
+ENV METEOR_MONGO_URL='mongodb://mongod:27017'
