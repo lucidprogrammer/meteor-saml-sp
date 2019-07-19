@@ -54,14 +54,35 @@ if(! $user_object ){
 }
 
 
-
-if(! $user_object && isset($user_auto_create)){
-    // $collection->insert()
-} 
 $stamped_token = _generateStampedLoginToken();
 $hash_stamped_token= _hashStampedToken($stamped_token);
 $token = $stamped_token['token'];
-$collection->updateOne(['_id' => $user_object->_id],['$addToSet' => ['services.resume.loginTokens' => $hash_stamped_token]]);
+$user_id = '';
+
+if($user_object){
+    $user_id = $user_object->_id
+}
+
+if(! $user_object && isset($user_auto_create)){
+    $_id = new MongoDB\BSON\ObjectId();
+    $createdAt = $stamped_token['when'];
+    $new_user = array();
+    $new_user['_id'] = $_id;
+    $new_user['createdAt'] = $createdAt;
+    if(isset($user[$username_identifier])){
+        $new_user['username'] = $user[$username_identifier];
+
+    }
+    if(isset($user[$email_identifier])){
+        $new_user['emails.address'] = $user[$email_identifier];
+
+    }
+   
+    $user_id = $collection.insert($new_user);
+    
+} 
+
+$collection->updateOne(['_id' => $user_id],['$addToSet' => ['services.resume.loginTokens' => $hash_stamped_token]]);
 
 _set_local_storage('Meteor.samlToken', $token);
 _redirect('/');
