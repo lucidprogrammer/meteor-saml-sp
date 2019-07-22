@@ -61,8 +61,9 @@ if($user_object) {
     $user_id = $user_object->_id;
 }
 
+$user_creation_success = true;
 if(! $user_object && isset($user_auto_create)) {
-    $_id = new MongoDB\BSON\ObjectId();
+    $_id = (string)new MongoDB\BSON\ObjectId();
     $createdAt = $stamped_token['when'];
     $new_user = array();
     $new_user['_id'] = $_id;
@@ -71,16 +72,23 @@ if(! $user_object && isset($user_auto_create)) {
         $new_user['username'] = $user[$username_identifier];
 
     }
+    
     if(isset($user[$email_identifier])) {
-        $new_user['emails.address'] = $user[$email_identifier];
+        $new_user['emails'] = [['address' => $user[$email_identifier],'verified' => 'false']];
 
     }
    
-    $user_id = $collection.insert($new_user);
+    $user_id = $_id;
+    $insertOneResult = $collection->insertOne($new_user);
+    $user_creation_success = $insertOneResult->getInsertedCount() == 1;
+    
     
 } 
+if($user_creation_success){
+    $collection->updateOne(['_id' => $user_id],['$addToSet' => ['services.resume.loginTokens' => $hash_stamped_token]]);
+    _set_local_storage('Meteor.samlToken', $token);
+    _redirect('/');
 
-$collection->updateOne(['_id' => $user_id],['$addToSet' => ['services.resume.loginTokens' => $hash_stamped_token]]);
-
-_set_local_storage('Meteor.samlToken', $token);
-_redirect('/');
+} else{
+    echo 'We are facing a temporary issue in this service, Error Code SAML001';
+}

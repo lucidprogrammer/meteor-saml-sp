@@ -4,18 +4,40 @@
 
 <body>
   <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
-  {{> private}}
+    {{> private}}
+    {{> saml_login}}
 </body>
 
-<template name="hello">
+<!-- <template name="hello">
   <a href='/_saml_login'>Login with SAML</a>
-</template>
+</template> -->
 
 <template name="private">
   {{#if currentUser}}
-  <h2>Hi</h2>
-  <button>Logout</button>
+    {{> hello}}
+    {{> info}}
+    <h2>Hi</h2>
+    <button>Logout</button>
   {{/if}}
+</template>
+
+<template name="saml_login">
+  {{#unless currentUser}}
+    <button id="login">Login with SAML</button>
+  {{/unless}}
+</template>
+
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="info">
+  <h2>Learn Meteor!</h2>
+  <ul>
+    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
+    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
+    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
+    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
+  </ul>
 </template>
