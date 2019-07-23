@@ -4,6 +4,10 @@ This is a micro service example for providing a SAML Service Provider capability
 
 For introduction to common SAML terms, [refer to this](sp/README.md)
 
+If you are looking for a custom meteor package, please check the [meteor_package branch.](https://github.com/lucidprogrammer/meteor-saml-sp/tree/meteor_package). However, it was not updated after METEOR@1.2.1 and no plans to maintain further. However, the code is good enough for you to use and you are welcome to maintain it if needed.
+
+However, this is an attempt to use a standard SAML library as a micro service to use along with meteor, without worrying about the deep end of SAML to be maintained by the meteor developer.
+
 ## Running the sample in your local machine. (Mac or Linux)
 Run the following command after cloning the repository.
 
